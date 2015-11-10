@@ -5,7 +5,6 @@ class Login extends CI_Controller {
 
   public function __construct() {
     parent::__construct();
-    //$this->load->library('session');
     $this->load->model('login_model');
     $this->load->database('default');
   }
@@ -15,20 +14,17 @@ class Login extends CI_Controller {
     switch ($this->session->userdata('profile')) {
       case '':
         $data['token'] = $this->token();
-        $data['titulo'] = 'Login con roles de usuario en codeigniter';
+        $data['titulo'] = 'Acceso al sistema';
         $this->load->template('login_view', $data);
         break;
       case 1: // Administrador
-        redirect($config['base_url'] . 'admin');
+        redirect(base_url('admin'));
         break;
-      case 2: //Editor
-        redirect($config['base_url'] . 'editor');
-        break;  
-      case 3: // Suscriptor
-        redirect($config['base_url'] . 'suscriptor');
+      case 2: // 
+        redirect(base_url('/'));
         break;
       default:    
-        $data['titulo'] = 'Login con roles de usuario en codeigniter';
+        $data['titulo'] = 'Acceso al sistema';
         $this->load->template('login_view', $data);
         break;    
     }
