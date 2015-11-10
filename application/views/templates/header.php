@@ -39,29 +39,14 @@ $name_logout = ($this->session->userdata('username')) ? 'Cerrar sesión' : 'Acce
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class=""><a href="<?php echo site_url(); ?>">Inicio <span class="sr-only">(current)</span></a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
+        <li class=""><a href="<?php echo site_url(); ?>">Inicio</a></li>
+        <?php if($this->session->userdata('profile') == 1) { ?>
+          <li><?php echo anchor(base_url() . 'users', 'Usuarios'); ?></li>
+        <?php } ?>
       </ul>
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Búsqueda">
-        </div>
-        <button type="submit" class="btn btn-primary">Buscar</button>
-      </form>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a href="<?php echo $link_logout; ?>"><?php echo $name_logout; ?></a>
+          <?php echo anchor(base_url() . ($this->session->userdata('username')) ? 'login/logout_ci' : 'login', ($this->session->userdata('username')) ? 'Cerrar sesión' : 'Acceder'); ?>
         </li>
       </ul>
 

@@ -24,7 +24,6 @@ class Welcome extends CI_Controller {
 		global $config;
 		$data = array(
 			'titulo' => 'Tecleras Virtuales'
-	 	,	'base_url' => base_url()
 		);
 		$this->load->template('welcome_message', $data);
 	}
