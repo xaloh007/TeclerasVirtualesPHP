@@ -19,12 +19,27 @@ class Welcome extends CI_Controller {
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
 
-	public function index()
-	{
-		global $config;
+	public function index() {
 		$data = array(
 			'titulo' => 'Tecleras Virtuales'
 		);
-		$this->load->template('welcome_message', $data);
+
+		if($this->session->userdata('is_admin')) {
+			$this->load->template('admin_view', $data);
+		} else {
+			switch($this->session->userdata('profile')) {
+				case 1: // Docentes
+					$this->load->template('docentes_view', $data);
+					break;
+				case 2: // Estudiantes
+					$this->load->template('estudiantes_view', $data);
+					break;
+				case '':
+				default:
+					$this->load->template('welcome_message', $data);
+					break;
+			}
+		}
+
 	}
 }

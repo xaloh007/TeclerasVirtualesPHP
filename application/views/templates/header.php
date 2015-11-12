@@ -1,9 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-$path_url = base_url();
-$link_logout = ($this->session->userdata('username')) ? site_url('login/logout_ci') : site_url('login');
-$name_logout = ($this->session->userdata('username')) ? 'Cerrar sesión' : 'Acceder';
 /*
  * Cambiar <?php echo anchor(base_url() . 'login/logout_ci', 'Cerrar sesión'); ?>
  */
@@ -16,7 +12,7 @@ $name_logout = ($this->session->userdata('username')) ? 'Cerrar sesión' : 'Acce
     <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
     <!-- Template general -->
-    <link rel="stylesheet" type="text/css" href="<?php echo $path_url; ?>assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style.css'); ?>">
 
     <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-1.11.3.min.js'); ?>"></script>
     <!-- Latest compiled and minified JavaScript -->
@@ -40,13 +36,14 @@ $name_logout = ($this->session->userdata('username')) ? 'Cerrar sesión' : 'Acce
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class=""><a href="<?php echo site_url(); ?>">Inicio</a></li>
-        <?php if($this->session->userdata('profile') == 1) { ?>
-          <li><?php echo anchor(base_url() . 'users', 'Usuarios'); ?></li>
+        <?php if($this->session->userdata('is_admin')) { ?>
+          <li><?php echo anchor(base_url() . 'estudiantes', 'Estudiantes'); ?></li>
+          <li><?php echo anchor(base_url() . 'docentes', 'Docentes'); ?></li>
         <?php } ?>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <?php echo anchor(base_url() . ($this->session->userdata('username')) ? 'login/logout_ci' : 'login', ($this->session->userdata('username')) ? 'Cerrar sesión' : 'Acceder'); ?>
+          <?php echo anchor(base_url() . ($this->session->userdata('is_logued_in') == true ? 'login/logout_ci' : 'login'), ($this->session->userdata('is_logued_in') == true ? 'Cerrar sesión' : 'Acceder')); ?>
         </li>
       </ul>
 

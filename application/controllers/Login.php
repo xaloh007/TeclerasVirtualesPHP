@@ -10,23 +10,26 @@ class Login extends CI_Controller {
   }
   
   public function index() {
-    global $config;
-    switch ($this->session->userdata('profile')) {
-      case '':
-        $data['token'] = $this->token();
-        $data['titulo'] = 'Acceso al sistema';
-        $this->load->template('login_view', $data);
-        break;
-      case 1: // Administrador
-        redirect(base_url('admin'));
-        break;
-      case 2: // 
-        redirect(base_url('/'));
-        break;
-      default:    
-        $data['titulo'] = 'Acceso al sistema';
-        $this->load->template('login_view', $data);
-        break;    
+    if($this->session->userdata('is_admin')) {
+      $data['titulo'] = 'Panel de administración';
+        $this->load->template('admin_view', $data);
+    } else {
+      switch ($this->session->userdata('profile')) {
+        case 1: // Docente
+          $data['titulo'] = 'Panel de Docentes';
+          $this->load->template('docentes_view', $data);
+          break;
+        case 2: // Estudiante
+          $data['titulo'] = 'Panel de Estudiantes';
+          $this->load->template('estudiantes_view', $data);
+          break;
+        case '':
+        default:
+          $data['token'] = $this->token();
+          $data['titulo'] = 'Acceso al sistema';
+          $this->load->template('login_view', $data);
+          break;    
+      }
     }
   }
 
@@ -45,13 +48,16 @@ class Login extends CI_Controller {
       } else {
         $username = $this->input->post('username');
         $password = sha1($this->input->post('password'));
-        $check_user = $this->login_model->login_user($username, $password);
+        $profile = $this->input->post('profile');
+
+        $check_user = $this->login_model->login_user($username, $password, $profile);
         if($check_user == true) {
           $data = array(
             'is_logued_in'  =>  true,
-            'id_user'       =>  $check_user->id,
-            'profile'       =>  $check_user->profile,
-            'username'      =>  $check_user->username
+            'is_admin'      =>  (isset($check_user->ADM_ID) ? true : false),
+            'id_user'       =>  (isset($check_user->DOC_ID) ? $check_user->DOC_ID : (isset($check_user->EST_ID) ? $check_user->EST_ID : '')),
+            'profile'       =>  $profile,
+            'name'          =>  (isset($check_user->DOC_NOMBRE) ? $check_user->DOC_NOMBRE : (isset($check_user->EST_NOMBRE) ? $check_user->EST_NOMBRE : '')),
           );    
           $this->session->set_userdata($data);
           $this->index();
@@ -69,8 +75,9 @@ class Login extends CI_Controller {
   }
   
   public function logout_ci() {
+    $this->session->set_userdata(array('is_logued_in' => false));
     $this->session->sess_destroy();
-    $this->index();
+    redirect(site_url());
   }
 }
 ?>

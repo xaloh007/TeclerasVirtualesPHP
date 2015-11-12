@@ -9,15 +9,23 @@ class Login_model extends CI_Model {
     parent::__construct();
   }
   
-  public function login_user($username, $password) {
-    $this->db->where('username', $username);
-    $this->db->where('password', $password);
-    $query = $this->db->get('users');
-    if($query->num_rows() == 1) {
-      return $query->row();
+  public function login_user($username, $password, $profile) {
+    if($username == $this->config->item('adm_username') && $password == $this->config->item('adm_passwd')) {
+      return (object) array(
+            'ADM_ID' => 1
+          , 'ADM_CORREO' => $this->config->item('adm_email')
+          , 'ADM_NOMBRE' => $this->config->item('adm_username')
+        );;
     } else {
-      $this->session->set_flashdata('usuario_incorrecto', 'Los datos introducidos son incorrectos');
-      redirect(site_url('login'), 'refresh');
+      $this->db->where(($profile == 1) ? 'DOC_CORREO' : 'EST_CORREO', $username);
+      $this->db->where(($profile == 1) ? 'DOC_PWD' : 'EST_PWD', $password);
+      $query = $this->db->get(($profile == 1) ? 'tv_docente' : 'tv_estudiante');
+      if($query->num_rows() == 1) {
+        return $query->row();
+      } else {
+        $this->session->set_flashdata('usuario_incorrecto', 'Los datos introducidos son incorrectos');
+        redirect(site_url('login'), 'refresh');
+      } 
     }
   }
 }
