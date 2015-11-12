@@ -516,3 +516,11 @@ $config['proxy_ips'] = '';
  * Configuración login de usuario
  */
 $config['sess_encrypt_cookie'] = false;
+
+/*
+ * Credenciales de acceso para perfil de administrador
+ */
+$config['adm_username'] = 'admin';
+$config['adm_passwd'] = 'f865b53623b121fd34ee5426c792e5c33af8c227';
+$config['adm_email'] = 'miguel.gonzalez.93@gmail.com';
+$config['adm_name'] = 'Miguel González Aravena';
