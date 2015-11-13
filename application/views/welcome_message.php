@@ -24,5 +24,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div>Hola soy Pablo Olivares</div>
 	<div>Hoola soy Aaron ...</div>
 	<div>Hola Soy italo fiel</div>
+	<div>hola a todos soy  juan andres</div>
 	</div>
 
